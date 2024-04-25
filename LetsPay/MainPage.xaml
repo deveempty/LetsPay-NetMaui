@@ -1,42 +1,161 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="LetsPay.MainPage">
+             x:Class="LetsPay.MainPage"
+             BackgroundColor="#323232">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Spacing="25"
-            Padding="30,0"
-            VerticalOptions="Center">
+    <ContentPage.Resources>
+        <Color x:Key="PrimaryColor">#444444</Color>
+        <Color x:Key="LightFont">#d6d6d6</Color>
+        <Color x:Key="DarkFont">#4fd8eb</Color>
+    </ContentPage.Resources>
 
-            <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                HeightRequest="200"
-                HorizontalOptions="Center" />
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".3*"/>
+            <RowDefinition Height=".7*"/>
+        </Grid.RowDefinitions>
+        <Frame Padding="10"
+               BackgroundColor="{StaticResource PrimaryColor}"
+               BorderColor="Transparent" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition/>
 
-            <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height=".1*" />
+                    <RowDefinition Height=".9*" />
+                </Grid.RowDefinitions>
 
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
-                FontSize="18"
-                HorizontalOptions="Center" />
+                <Label Grid.ColumnSpan="3"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"
+                       Text="Total Per Person"
+                       TextColor="{StaticResource LightFont}" />
+                <Label x:Name="lblTotal"
+                       Grid.Row="1"
+                       FontAttributes="Bold"
+                       FontSize="35"
+                       HorizontalTextAlignment="Center"
+                       Text="$0.00"
+                       TextColor="{StaticResource LightFont}"
+                       VerticalOptions="CenterAndExpand"/>
+                <BoxView
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="0,10,0,0"
+                    VerticalOptions="Center"
+                    Color="LightGray" />
+                <VerticalStackLayout
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center">
 
-            <Button
-                x:Name="CounterBtn"
-                Text="Click me"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
-                HorizontalOptions="Center" />
+                    <Label Text="Subtotal"
+                           TextColor="{StaticResource LightFont}" />
+                    <Label x:Name="lblSubtotal"
+                           FontAttributes="Bold"
+                           Text="$0.00"
+                           TextColor="{StaticResource LightFont}" />
+                    <Label Margin="0,10,0,0"
+                           Text="Tip"
+                           TextColor="{StaticResource LightFont}"/>
+                    <Label x:Name="lblTipByPerson"
+                           FontAttributes="Bold"
+                           Text="$0.00"
+                           TextColor="{StaticResource LightFont}" />
 
-        </VerticalStackLayout>
-    </ScrollView>
+                </VerticalStackLayout>
+            </Grid>
+        </Frame>
+        <Grid Grid.Row="1"
+              Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".3*" />
+                <ColumnDefinition Width=".7*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label Text="Enter your bill: $"
+                   TextColor="{StaticResource LightFont}"
+                   VerticalOptions="Center" />
+            <Entry x:Name="txtBill"
+                   Grid.Column="1"
+                   Background="{StaticResource PrimaryColor}"
+                   Keyboard="Numeric"
+                   Text="0.0"
+                   TextColor="{StaticResource LightFont}"
+                   Completed="txtBill_Completed"
+                   VerticalOptions="Center" />
+            <Label Grid.Row="1"
+                   Text="Choose your tip"
+                   TextColor="{StaticResource LightFont}"
+                   VerticalOptions="Center" />
+
+            <HorizontalStackLayout
+                Grid.Row="1"
+                Grid.Column="1"
+                HeightRequest="70"
+                HorizontalOptions="CenterAndExpand"
+                Spacing="10">
+                <Button Text="10%" WidthRequest="70" Clicked="Button_Clicked"/>
+                <Button Text="15%" WidthRequest="70" Clicked="Button_Clicked"/>
+                <Button Text="20%" WidthRequest="70" Clicked="Button_Clicked"/>
+
+            </HorizontalStackLayout>
+            <Label x:Name="lblTip"
+                   Grid.Row="2"
+                   Text="Tip: 0%"
+                   TextColor="{StaticResource LightFont}"
+                   VerticalOptions="Center" />
+            <Slider
+                x:Name="sldTip"
+                Grid.Row="2"
+                Grid.Column="1"
+                Maximum="50"
+                Minimum="0"
+                ValueChanged="sldTip_ValueChanged"/>
+            <Label Grid.Row="3"
+                   Text="Split your total"
+                   TextColor="{StaticResource LightFont}"
+                   VerticalOptions="Center" />
+            <HorizontalStackLayout
+                Grid.Row="3"
+                Grid.Column="1"
+                HorizontalOptions="Center"
+                VerticalOptions="Center">
+                <Button x:Name="btnMinus"
+                        Text="-"
+                        WidthRequest="70"
+                        Clicked="btnMinus_Clicked"/>
+                <Label x:Name="lblNoPerons"
+                       BackgroundColor="{StaticResource PrimaryColor}"
+                       FontSize="25"
+                       HeightRequest="50"
+                       HorizontalOptions="Center"
+                       HorizontalTextAlignment="Center"
+                       Text="1"
+                       TextColor="{StaticResource LightFont}"
+                       VerticalOptions="Center"
+                       VerticalTextAlignment="Center"
+                       WidthRequest="100"/>
+                <Button x:Name="bntPlus"
+                        Text="+"
+                        WidthRequest="70"
+                        Clicked="bntPlus_Clicked"/>
+
+
+            </HorizontalStackLayout>
+        </Grid>
+    </Grid>
 
 </ContentPage>
 
